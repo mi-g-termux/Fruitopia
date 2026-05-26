@@ -788,7 +788,7 @@ export const AdminPanel: React.FC = () => {
  currencySymbol: customSymbol,
  currencyPosition: currencyPosition,
  };
- await saveSiteSettings(current);
+await saveSiteSettings(JSON.parse(JSON.stringify(current)));
  showSavedBanner('branding');
  } catch (err) {
  toast.error('Branding CMS update failure.');
