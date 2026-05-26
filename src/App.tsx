@@ -44,31 +44,19 @@ function AppContent() {
   useEffect(() => {
     let cancelled = false;
 
-    async function checkInstall() {
-      await firebaseBootPromise;
-      if (cancelled) return;
+  async function checkInstall() {
+  await firebaseBootPromise;
+  if (cancelled) return;
 
-      const source = await getActiveFirebaseSource();
-      if (source === 'none' || !getIsFirebaseConfigured()) {
-        setInstallState('install');
-        return;
-      }
+  const source = await getActiveFirebaseSource();
+  if (source === 'none' || !getIsFirebaseConfigured()) {
+    setInstallState('install');
+    return;
+  }
 
-      // Firebase is up — check install_status doc
-      try {
-        const database = getDb();
-        if (!database) { setInstallState('install'); return; }
-        const snap = await getDoc(doc(database, 'settings', 'install_status'));
-        if (cancelled) return;
-        if (snap.exists() && snap.data()?.installed === true) {
-          setInstallState('ready');
-        } else {
-          setInstallState('install');
-        }
-      } catch {
-        if (!cancelled) setInstallState('install');
-      }
-    }
+  // Firebase is configured — site is ready, never show installer again
+  setInstallState('ready');
+}
 
     // Expose so InstallWizard can trigger a re-check immediately after writing
     // install_status — handles the case where Firebase was already configured

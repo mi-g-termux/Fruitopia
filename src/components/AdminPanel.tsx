@@ -788,11 +788,12 @@ export const AdminPanel: React.FC = () => {
  currencySymbol: customSymbol,
  currencyPosition: currencyPosition,
  };
-const cleanSettings = Object.fromEntries(
-  Object.entries(current).filter(([_, v]) => v !== undefined)
-);
-await saveSiteSettings(cleanSettings as typeof current);
-showSavedBanner('branding');
+await saveSiteSettings(JSON.parse(JSON.stringify(current)));
+ showSavedBanner('branding');
+ } catch (err) {
+ toast.error('Branding CMS update failure.');
+ }
+ };
 
  const handleSaveSMTPCMS = async () => {
  try {
