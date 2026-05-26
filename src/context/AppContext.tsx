@@ -611,7 +611,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       // Reload data from the new backend (picks up seeded data if applicable)
-      await loadData();
+     await loadData();
+setProducts([...products]);
 
       return { success: result.success, message: result.message };
     },
