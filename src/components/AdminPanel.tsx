@@ -612,12 +612,12 @@ export const AdminPanel: React.FC = () => {
  };
 
  if (editingProduct) {
- await editProduct(productObj);
- toast.success(`Updated "${prodName}" in products catalog.`);
- } else {
- await addProduct(productObj);
- toast.success(`New product"${prodName}" added successfully.`);
- }
+  await editProduct(productObj);
+  toast.success(`Updated "${prodName}" in products catalog.`);
+} else {
+  await addProduct(productObj);
+  toast.success(`New product "${prodName}" added successfully.`);
+}
  setIsProductFormOpen(false);
  } catch (err) {
  toast.error('Could not save product specifications.');
@@ -788,12 +788,11 @@ export const AdminPanel: React.FC = () => {
  currencySymbol: customSymbol,
  currencyPosition: currencyPosition,
  };
-await saveSiteSettings(JSON.parse(JSON.stringify(current)));
- showSavedBanner('branding');
- } catch (err) {
- toast.error('Branding CMS update failure.');
- }
- };
+const cleanSettings = Object.fromEntries(
+  Object.entries(current).filter(([_, v]) => v !== undefined)
+);
+await saveSiteSettings(cleanSettings as typeof current);
+showSavedBanner('branding');
 
  const handleSaveSMTPCMS = async () => {
  try {
